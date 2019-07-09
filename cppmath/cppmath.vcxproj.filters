@@ -7,7 +7,6 @@
     <ClInclude Include="Range.h" />
     <ClInclude Include="StaticConvexPolygon.h" />
     <ClInclude Include="StaticPolygon.h" />
-    <ClInclude Include="types.h" />
     <ClInclude Include="Value.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Function\Function.h">
@@ -28,6 +27,11 @@
     </ClInclude>
     <ClInclude Include="Polygon.h" />
     <ClInclude Include="ConvexPolygon.h" />
+    <ClInclude Include="Matrix.h" />
+    <ClInclude Include="RowVector.h" />
+    <ClInclude Include="ColumnVector.h" />
+    <ClInclude Include="_declares.h" />
+    <ClInclude Include="_types.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

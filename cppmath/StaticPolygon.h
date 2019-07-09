@@ -4,7 +4,7 @@
 namespace math {
 
 	template <class Type, Dimension Dim, size_t Size>
-	class StaticPolygon {
+	class StaticPolygon : public Vector<Point<Type, Dim>, Size> {
 	public:
 		using _Point = Point<Type, Dim>;
 
@@ -15,13 +15,6 @@ namespace math {
 		_Point get() const noexcept;
 
 		bool operator &(const _Point&) const noexcept;
-		
-		bool operator ==(const StaticPolygon&) const noexcept;
-		bool operator !=(const StaticPolygon&) const noexcept;
-
-	private:
-		StaticPolygon<Type, Dim, Size-1> parent;
-		_Point point;
 	};
 
 }

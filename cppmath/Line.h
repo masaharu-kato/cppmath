@@ -7,29 +7,39 @@ namespace math {
 
 	template <class Type, Dimension Dim>
 	class Line {
-	public:
-		Line(const Point&, const Vector&) noexcept;
-		
-		Line operator +(const Point&) const noexcept;
-		Line operator -(const Point&) const noexcept;
+	private:
+		using _Point = Point<Type, Dim>;
+		using _Vector = Vector<Type, Dim>;
 
-		Line& operator +=(const Point&) noexcept;
-		Line& operator -=(const Point&) noexcept;
+		_Point point;
+		_Vector vec;
+
+	public:
+		Line(const _Point& point, const _Vector& vec) noexcept
+			: point(point), vec(vec) {}
 		
-		bool operator ==(const Line&) const noexcept;
-		bool operator !=(const Line&) const noexcept;
+		Line operator +(const _Point&) const noexcept;
+		Line operator -(const _Point&) const noexcept;
+
+		Line& operator +=(const _Point&) noexcept;
+		Line& operator -=(const _Point&) noexcept;
+		
+		bool operator ==(const Line& l) const noexcept { return point == l.point && vec == l.vec; }
+		bool operator !=(const Line& l) const noexcept { return point != l.point && vec != l.vec; }
 		
 		Point operator ()(Type) const noexcept;
 		template <Dimension D>
 		Point operator ()(Value<Type, D>) const noexcept;
 
-		bool operator &(const Point&) const noexcept;
+		bool operator &(const _Point&) const noexcept;
 
-		Type length() const noexcept;
+		Type squared_length() const noexcept {
+			return vec.squared_length();
+		}
 
-	private:
-		Point point;
-		Vector vector;
+		Type length() const noexcept {
+			return vec.length();
+		}
 	};
 
 }

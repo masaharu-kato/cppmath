@@ -5,17 +5,22 @@ namespace math {
 
 	template <class Type, Dimension Dim>
 	class Range {
+	private:
+		using _Point = Point<Type, Dim>;
+
+		_Point beg;
+		_Point end;
+
 	public:
-		Range(const Point&, const Point&) noexcept;
+		Range(const _Point& beg, const _Point& end) noexcept
+			: beg(beg), end(end) {}
 		
-		Point operator ()(Type) const noexcept;
-		bool operator &(const Point&) const noexcept;
-		bool contains(const Point&) const noexcept;
+		_Point operator ()(Type) const noexcept;
+		bool operator &(const _Point&) const noexcept;
+		bool contains(const _Point&) const noexcept;
 		Type length() const noexcept;
 
-	private:
-		Point beg;
-		Point end;
+
 	};
 
 }

@@ -134,16 +134,20 @@
     <ClInclude Include="Function\BinaryOperation.h" />
     <ClInclude Include="Function\UnaryOperation.h" />
     <ClInclude Include="Function\Variable.h" />
+    <ClInclude Include="ColumnVector.h" />
     <ClInclude Include="Line.h" />
     <ClInclude Include="LineSegment.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Polygon.h" />
     <ClInclude Include="Range.h" />
     <ClInclude Include="StaticConvexPolygon.h" />
     <ClInclude Include="StaticPolygon.h" />
-    <ClInclude Include="types.h" />
+    <ClInclude Include="_types.h" />
     <ClInclude Include="Value.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="RowVector.h" />
+    <ClInclude Include="_declares.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
