@@ -143,6 +143,7 @@
     <ClInclude Include="Range.h" />
     <ClInclude Include="StaticConvexPolygon.h" />
     <ClInclude Include="StaticPolygon.h" />
+    <ClInclude Include="_aliases.h" />
     <ClInclude Include="_types.h" />
     <ClInclude Include="Value.h" />
     <ClInclude Include="Vector.h" />

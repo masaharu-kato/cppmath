@@ -6,7 +6,7 @@ namespace math {
 	template <class Type, Dimension Dim, size_t Size>
 	class StaticConvexPolygon : public StaticPolygon<Type, Dim, Size> {
 	public:
-		using StaticPolygon::StaticPolygon;
+		using StaticPolygon<Type, Dim, Size>::StaticPolygon;
 		
 		bool operator &(const _Point&) const noexcept;
 	};

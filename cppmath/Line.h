@@ -18,16 +18,17 @@ namespace math {
 		Line(const _Point& point, const _Vector& vec) noexcept
 			: point(point), vec(vec) {}
 		
-		Line operator +(const _Point&) const noexcept;
-		Line operator -(const _Point&) const noexcept;
+		Line operator +(const _Point& p) const noexcept { return {point + p, vec}; }
+		Line operator -(const _Point& p) const noexcept { return {point - p, vec}; }
 
-		Line& operator +=(const _Point&) noexcept;
-		Line& operator -=(const _Point&) noexcept;
+		Line& operator +=(const _Point& p) noexcept { point += p; return *this; }
+		Line& operator -=(const _Point& p) noexcept { point -= p; return *this; }
 		
 		bool operator ==(const Line& l) const noexcept { return point == l.point && vec == l.vec; }
 		bool operator !=(const Line& l) const noexcept { return point != l.point && vec != l.vec; }
 		
-		Point operator ()(Type) const noexcept;
+		Point operator ()(Type param) const noexcept { return point + vec * param; }
+
 		template <Dimension D>
 		Point operator ()(Value<Type, D>) const noexcept;
 

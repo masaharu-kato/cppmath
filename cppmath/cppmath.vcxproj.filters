@@ -32,6 +32,7 @@
     <ClInclude Include="ColumnVector.h" />
     <ClInclude Include="_declares.h" />
     <ClInclude Include="_types.h" />
+    <ClInclude Include="_aliases.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

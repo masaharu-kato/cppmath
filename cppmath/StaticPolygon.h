@@ -11,9 +11,6 @@ namespace math {
 		template <class... Args>
 		StaticPolygon(Args&&...) noexcept;
 
-		template <size_t N>
-		_Point get() const noexcept;
-
 		bool operator &(const _Point&) const noexcept;
 	};
 

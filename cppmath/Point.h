@@ -6,7 +6,7 @@ namespace math {
 	template <class Type, Dimension Dim>
 	class Point : public Vector<Type, Dim> {
 	public:
-		using Vector::Vector;
+		using Vector<Type, Dim>::Vector;
 
 	};
 
