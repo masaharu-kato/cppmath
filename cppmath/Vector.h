@@ -6,75 +6,58 @@
 namespace math {
 
 	template <template <Dimension> class ValueType, Dimension Dim>
-	class Vector {
+	class Vector : public Vector<ValueType, Dim-1>, public ValueType<Dim> {
 	private:
 		using Front = Vector<ValueType, Dim-1>;
 		using Last = ValueType<Dim>;
 		using NumericType = ValueType<0>::NumericType;
 		static constexpr Dimension I_DIM = Dim;
 
-		Front front;
-		Last last;
-
 	public:
 		Vector() noexcept = default;
 		Vector(const Front& parent, Last value) noexcept
 			: Front(parent), Last(value) {}
 
+		const Front& front() const noexcept { return (const Front&)*this; }
+		const Last& last() const noexcept { return (const Last&)*this; }
+
+		Front& front() noexcept { return (Front&)*this; }
+		Last& last() noexcept { return (Last&)*this; }
+
 	//	template <class... Args> Vector(Args&&...) noexcept;
-
-		template <Dimension D>
-		ValueType<D> get() const noexcept {
-			return (ValueType<D>)(*this);
-		}
-
-		template <Dimension D>
-		ValueType<D>& get() noexcept {
-			return (ValueType<D>&)(*this);
-		}
 
 		template <class T>
 		operator Vector<T, Dim>() const noexcept {
-			return {(Vector<T, Dim-1>)front, (T)last };
+			return {(Vector<T, Dim-1>)front(), (T)last() };
 		}
 
 		
-		Vector operator +() const noexcept { return {+front, +last}; }
-		Vector operator -() const noexcept { return {-front, -last}; }
+		Vector operator +() const noexcept { return {+front(), +last()}; }
+		Vector operator -() const noexcept { return {-front(), -last()}; }
 
-		Vector operator + (const Vector& v) const noexcept { return {front + v.front, last + v.last}; }
-		Vector operator - (const Vector& v) const noexcept { return {front - v.front, last - v.last}; }
-		//Vector operator * (const Vector& v) const noexcept { return {front * v.front, last * v.last}; }
-		//Vector operator / (const Vector& v) const noexcept { return {front / v.front, last / v.last}; }
+		Vector operator + (const Vector& v) const noexcept { return {front() + v.front(), last() + v.last()}; }
+		Vector operator - (const Vector& v) const noexcept { return {front() - v.front(), last() - v.last()}; }
+		Vector operator * (NumericType v) const noexcept { return {front() * v, last() * v}; }
+		Vector operator / (NumericType v) const noexcept { return {front() / v, last() / v}; }
 
-		//Vector operator + (NumericType v) const noexcept { return {front + v, last + v}; }
-		//Vector operator - (NumericType v) const noexcept { return {front - v, last - v}; }
-		Vector operator * (NumericType v) const noexcept { return {front * v, last * v}; }
-		Vector operator / (NumericType v) const noexcept { return {front / v, last / v}; }
-
-		Vector& operator += (const Vector& v) noexcept { front += v.front; last += v.last; return *this; }
-		Vector& operator -= (const Vector& v) noexcept { front -= v.front; last -= v.last; return *this; }
-		//Vector& operator *= (const Vector& v) noexcept { front *= v.front; last *= v.last; return *this; }
-		//Vector& operator /= (const Vector& v) noexcept { front /= v.front; last /= v.last; return *this; }
-
-		//Vector& operator += (NumericType v) noexcept { front += v; last += v; return *this; }
-		//Vector& operator -= (NumericType v) noexcept { front -= v; last -= v; return *this; }
-		Vector& operator *= (NumericType v) noexcept { front *= v; last *= v; return *this; }
-		Vector& operator /= (NumericType v) noexcept { front /= v; last /= v; return *this; }
+		Vector& operator += (const Vector& v) noexcept { front() += v.front(); last() += v.last(); return *this; }
+		Vector& operator -= (const Vector& v) noexcept { front() -= v.front(); last() -= v.last(); return *this; }
+		Vector& operator *= (NumericType v) noexcept { front() *= v; last() *= v; return *this; }
+		Vector& operator /= (NumericType v) noexcept { front() /= v; last() /= v; return *this; }
 		
-		bool operator ==(const Vector& v) const noexcept { return last == v.last && front == v.front; }
-		bool operator !=(const Vector& v) const noexcept { return last != v.last && front != v.front; }
+		bool operator ==(const Vector& v) const noexcept { return last() == v.last() && front() == v.front(); }
+		bool operator !=(const Vector& v) const noexcept { return last() != v.last() && front() != v.front(); }
 
 		template <class... Args>
-		Vector operator ()(Args&&... args) const noexcept { return {front(args...), last(args...)}; }
+		Vector operator ()(Args&&... args) const noexcept { return {front()(args...), last()(args...)}; }
 
 		template <class... Args>
-		Vector operator ()(Args&&... args) noexcept { return {front(args...), last(args...)}; }
+		Vector operator ()(Args&&... args) noexcept { return {front()(args...), last()(args...)}; }
 
 
 
 		ValueType squared_length() const noexcept {
-			return Front::squared_length() + ValueType(last * last);
+			return Front::squared_length() + ValueType(last() * last());
 		}
 
 		ValueType length() const noexcept {
@@ -137,11 +120,11 @@ namespace math {
 	private:
 		using Last = ValueType<1>;
 
-		auto& last noexcept {
+		Last& last() noexcept {
 			return (Last&)(*this); 
 		}
 
-		const auto& last const noexcept {
+		const Last& last() const noexcept {
 			return (const Last&)(*this);
 		}
 
@@ -165,7 +148,7 @@ namespace math {
 		}
 		
 		ValueType squared_length() const noexcept {
-			return ValueType(last * last);
+			return ValueType(last() * last());
 		}
 
 		ValueType length() const noexcept {
