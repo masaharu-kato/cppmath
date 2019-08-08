@@ -1,11 +1,15 @@
 #pragma once
-#include "RowVector.h"
-#include "ColumnVector.h"
+#include "Value.h"
+#include "Vector.h"
 
 namespace math {
+	
 
 	template <class Type, Dimension N_ROW, Dimension N_COL>
-	class Matrix : public RowVector<ColumnVector<Type, N_ROW>, N_COL> {
+	class Matrix : public RowVector<ColVectorInRowVector<Type, N_ROW>::Type, N_COL> {
+	private:
+
+
 	public:
 		Matrix() noexcept = default;
 		Matrix(const Matrix<Type, Dim-1>& parent, Value<Type, Dim> value) noexcept

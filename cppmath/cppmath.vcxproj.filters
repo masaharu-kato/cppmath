@@ -28,8 +28,6 @@
     <ClInclude Include="Polygon.h" />
     <ClInclude Include="ConvexPolygon.h" />
     <ClInclude Include="Matrix.h" />
-    <ClInclude Include="RowVector.h" />
-    <ClInclude Include="ColumnVector.h" />
     <ClInclude Include="_declares.h" />
     <ClInclude Include="_types.h" />
     <ClInclude Include="_aliases.h" />

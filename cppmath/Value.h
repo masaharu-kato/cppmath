@@ -3,8 +3,13 @@
 
 namespace math {
 
-	template <class Type, Dimension Dim>
+	template <class Type, Dimension ROW, Dimension COL>
 	class Value {
+	public:
+		using NumericType = Type;
+		static constexpr Dimension I_ROW = ROW;
+		static constexpr Dimension I_COL = COL;
+
 	private:
 		Type value;
 

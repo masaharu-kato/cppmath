@@ -3,10 +3,10 @@
 
 namespace math {
 
-	template <class Type, Dimension Dim>
-	class Point : public Vector<Type, Dim> {
+	template <class NumericType, Dimension Dim>
+	class Point : public RowVector<NumericType, Dim> {
 	public:
-		using Vector<Type, Dim>::Vector;
+		using RowVector<NumericType, Dim>::RowVector;
 
 	};
 
