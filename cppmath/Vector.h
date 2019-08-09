@@ -1,34 +1,66 @@
 #pragma once
 #include "Value.h"
+#include "_type_utils.h"
 #include <cmath>
 #include <iostream>
 
 namespace math {
 
-	template <template <Dimension> class ValueType, Dimension Dim>
-	class Vector : public Vector<ValueType, Dim-1>, public ValueType<Dim> {
-	private:
-		using Front = Vector<ValueType, Dim-1>;
-		using Last = ValueType<Dim>;
-		using NumericType = ValueType<0>::NumericType;
-		static constexpr Dimension I_DIM = Dim;
-
+//	N-dimensional Vector Class
+	template <template <Dimension> class ValType, Dimension N_DIM>
+	class Vector : public Vector<ValType, N_DIM-1>, public ValType<N_DIM> {
 	public:
+		using Front = Vector<ValType, N_DIM-1>;
+		using Last = ValType<N_DIM>;
+		using NumType = typename ValType<N_DIM>::NumType;
+
 		Vector() noexcept = default;
-		Vector(const Front& parent, Last value) noexcept
+		Vector(const Front& parent, const Last& value) noexcept
 			: Front(parent), Last(value) {}
 
-		const Front& front() const noexcept { return (const Front&)*this; }
-		const Last& last() const noexcept { return (const Last&)*this; }
+		
+		template <class... Args>
+		Vector(Args&&... args) noexcept {
+			static_assert(sizeof...(args) == N_DIM, "Too many or too few arguments.");
+			set<1>(args...);
+		}
 
-		Front& front() noexcept { return (Front&)*this; }
-		Last& last() noexcept { return (Last&)*this; }
 
-	//	template <class... Args> Vector(Args&&...) noexcept;
+		inline const Front& front() const noexcept { return (const Front&)*this; }
+		inline const Last& last() const noexcept { return (const Last&)*this; }
 
-		template <class T>
-		operator Vector<T, Dim>() const noexcept {
-			return {(Vector<T, Dim-1>)front(), (T)last() };
+		inline Front& front() noexcept { return (Front&)*this; }
+		inline Last& last() noexcept { return (Last&)*this; }
+
+		//	get specific value
+		template <Dimension D>
+		ValType<D> get() const noexcept {
+			return (ValType<D>)*this;
+		}
+
+		//	set specific value
+		template <Dimension D>
+		Vector& set(const ValType<D>& v) noexcept {
+			(ValType<D>&)*this = v;
+			return *this;
+		}
+
+		//	set specific value (alias of set())
+		template <Dimension D>
+		Vector& operator =(const ValType<D>& v) noexcept {
+			return set(v);
+		}
+
+		//	set all values
+		template <Dimension D, class... Rests>
+		Vector& set(const ValType<D>& first, Rests&&... rests) noexcept {
+			set<D>(first);
+			return set<D+1>(rests...);
+		}
+
+		template <class _NT>
+		operator Vector<_NT, N_ROW, I_COL>() const noexcept {
+			return {(Vector<_NT, N_ROW-1, I_COL>)front(), (Value<_NT, N_ROW, I_COL>)last() };
 		}
 
 		
@@ -37,13 +69,13 @@ namespace math {
 
 		Vector operator + (const Vector& v) const noexcept { return {front() + v.front(), last() + v.last()}; }
 		Vector operator - (const Vector& v) const noexcept { return {front() - v.front(), last() - v.last()}; }
-		Vector operator * (NumericType v) const noexcept { return {front() * v, last() * v}; }
-		Vector operator / (NumericType v) const noexcept { return {front() / v, last() / v}; }
+		Vector operator * (NumType v) const noexcept { return {front() * v, last() * v}; }
+		Vector operator / (NumType v) const noexcept { return {front() / v, last() / v}; }
 
 		Vector& operator += (const Vector& v) noexcept { front() += v.front(); last() += v.last(); return *this; }
 		Vector& operator -= (const Vector& v) noexcept { front() -= v.front(); last() -= v.last(); return *this; }
-		Vector& operator *= (NumericType v) noexcept { front() *= v; last() *= v; return *this; }
-		Vector& operator /= (NumericType v) noexcept { front() /= v; last() /= v; return *this; }
+		Vector& operator *= (NumType v) noexcept { front() *= v; last() *= v; return *this; }
+		Vector& operator /= (NumType v) noexcept { front() /= v; last() /= v; return *this; }
 		
 		bool operator ==(const Vector& v) const noexcept { return last() == v.last() && front() == v.front(); }
 		bool operator !=(const Vector& v) const noexcept { return last() != v.last() && front() != v.front(); }
@@ -56,11 +88,11 @@ namespace math {
 
 
 
-		ValueType squared_length() const noexcept {
-			return Front::squared_length() + ValueType(last() * last());
+		NumType squared_length() const noexcept {
+			return Front::squared_length() + NumType(last() * last());
 		}
 
-		ValueType length() const noexcept {
+		NumType length() const noexcept {
 			return sqrt(squared_length()); 
 		}
 
@@ -100,25 +132,12 @@ namespace math {
 	};
 
 
-	template <template <Dimension> class ValueType, Dimension Dim, class OS>
-	OS& operator <<(OS& os, const Vector<ValueType, Dim>& vec) {
-		vec.output(os, ", ", "(", ")");
-		return os;
-	}
-	
-
-	template <template <Dimension> class ValueType, Dimension Dim, class IS>
-	IS& operator >>(IS& is, Vector<ValueType, Dim>& vec) {
-		vec.input(is);
-		return is;
-	}
-
-
-
-	template <template <Dimension> class ValueType>
-	class Vector<ValueType, 1> : public ValueType<1> {
-	private:
-		using Last = ValueType<1>;
+	//	Specialization when 1x Dimension
+	template <template <Dimension> class ValType>
+	class Vector<ValType, 1> : public ValType<1> {
+	public:
+		using Last = ValType<1>;
+		using NumType = typename ValType<0>::NumType;
 
 		Last& last() noexcept {
 			return (Last&)(*this); 
@@ -128,30 +147,27 @@ namespace math {
 			return (const Last&)(*this);
 		}
 
-	public:
+
 		Vector() noexcept = default;
-		Vector(Last value) noexcept
+		Vector(const Last& value) noexcept
 			: Last(value) {}
 
-		template <class... Args> Vector(Args&&...) noexcept {
-			static_assert(false, "Too many initialize parameters.");
+
+		template <Dimension D>
+		ValType<D> get() const noexcept {
+			return (ValType<D>)(*this);
 		}
 
 		template <Dimension D>
-		ValueType<D> get() const noexcept {
-			return (ValueType<D>)(*this);
-		}
-
-		template <Dimension D>
-		ValueType<D>& get() noexcept {
-			return (ValueType<D>&)(*this);
+		ValType<D>& get() noexcept {
+			return (ValType<D>&)(*this);
 		}
 		
-		ValueType squared_length() const noexcept {
-			return ValueType(last() * last());
+		NumType squared_length() const noexcept {
+			return ValType(last() * last());
 		}
 
-		ValueType length() const noexcept {
+		NumType length() const noexcept {
 			return sqrt(squared_length()); 
 		}
 
@@ -185,6 +201,21 @@ namespace math {
 
 
 	};
+
+
+	//	output function for Vector
+	template <template <Dimension> class ValType, Dimension N_DIM, class OS>
+	OS& operator <<(OS& os, const Vector<ValType, N_DIM>& vec) {
+		vec.output(os, ", ", "(", ")");
+		return os;
+	}
+	
+	//	input function for Vector
+	template <template <Dimension> class ValType, Dimension N_DIM, class IS>
+	IS& operator >>(IS& is, Vector<ValType, N_DIM>& vec) {
+		vec.input(is);
+		return is;
+	}
 
 
 }

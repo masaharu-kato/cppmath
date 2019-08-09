@@ -4,45 +4,56 @@
 
 namespace math {
 	
-
-	template <class Type, Dimension N_ROW, Dimension N_COL>
-	class Matrix : public RowVector<ColVectorInRowVector<Type, N_ROW>::Type, N_COL> {
-	private:
-
-
+	template <class NumType, Dimension N_ROW, Dimension N_COL>
+	class Matrix : public Vector<typename NumTypeOf<NumType>::RowNumOf<N_ROW>::ColVectorType, N_COL> {
 	public:
-		Matrix() noexcept = default;
-		Matrix(const Matrix<Type, Dim-1>& parent, Value<Type, Dim> value) noexcept
-			: Matrix<Type, Dim-1>(parent), Value<Type, Dim>(value) {}
-
-		template <class... Args> Matrix(Args&&...) noexcept;
-
-		template <Dimension R>
-		explicit operator Value<RowVector<Type, N_COL>, R>() const noexcept {
-			return (Vector<Type, N_COL>)(Vector<Value<Type, R>, N_COL>)(*this);
-		}
-
-		template <Dimension R>
-		auto getRow() const noexcept {
-			return (RowVector<Type, N_COL>)(Value<RowVector<Type, N_COL>, R>)(*this);
-		}
-
-		template <Dimension C>
-		auto getColumn() const noexcept {
-			return (ColumnVector<Type, N_ROW>)(Value<ColumnVector<Type, N_ROW>, C>)(*this);
-		}
-
+	//	matrix type
 		template <Dimension R, Dimension C>
-		Type get() const noexcept;
+		using MatrixType = Matrix<NumType, R, C>;
+		
+	//	base type
+		using BaseType = Vector<typename NumTypeOf<NumType>::RowNumOf<N_ROW>::ColVectorType, N_COL>;
 
+	//	value type
 		template <Dimension R, Dimension C>
-		Type& get() noexcept;
+		using ValueType = Value<NumType, R, C>;
+		
+	//	constructor
+		using BaseType::BaseType;
 
+	////	get specific column vector
+	//	template <Dimension C>
+	//	auto getColumn() const noexcept {
+	//		return BaseType::get<C>();
+	//	}
+
+	//	get specific value
+		template <Dimension R, Dimension C>
+		ValueType<R, C> get() const noexcept {
+			return (ValueType<R, C>)*this;
+		}
+
+	//	set specific value
+		template <Dimension R, Dimension C>
+		Matrix& set(const ValueType<R, C>& v) noexcept {
+			(ValueType<R, C>&)*this = v;
+			return *this;
+		}
+
+	//	set specific value (alias of set())
+		template <Dimension R, Dimension C>
+		Matrix& operator =(const ValueType<R, C>& v) noexcept {
+			return set(v);
+		}
+
+	//	multiply with matrix
 		template <Dimension C>
-		Matrix<Type, Row, C> operator *(const Matrix<Type, COL, C>& m) const noexcept;
+		MatrixType<N_ROW, C> operator *(const MatrixType<N_COL, C>& m) const noexcept;
 
-		Type det() const;
+	//	calculate determinant
+		NumType det() const noexcept;
 
+	//	calculate inverse matrix
 		Matrix inverse() const;
 
 	};

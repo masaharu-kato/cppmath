@@ -1,26 +1,15 @@
 #include <iostream>
 #include "_aliases.h"
 #include "Vector.h"
-#include "Point.h"
 
 using namespace math;
 using namespace math::alias;
 
 int main(void)
 {
-	while(std::cin) {
-		Point3D p1, p2;
-		
-		std::cout << "p1: ";
-		std::cin >> p1;
-		
-		std::cout << "p2: ";
-		std::cin >> p2;
+	RowVector3D vec(1.5, 3.6, 7.3);
 
-		auto sum = p1 + p2;
-
-		std::cout << "Sum: " << sum << " (length:" << sum.length() << ")\n";
-	}
+	std::cout << vec << "\n";
 
 	return 0;
 }

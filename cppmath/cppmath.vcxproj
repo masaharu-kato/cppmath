@@ -142,11 +142,12 @@
     <ClInclude Include="Range.h" />
     <ClInclude Include="StaticConvexPolygon.h" />
     <ClInclude Include="StaticPolygon.h" />
+    <ClInclude Include="Vector.h" />
     <ClInclude Include="_aliases.h" />
     <ClInclude Include="_types.h" />
     <ClInclude Include="Value.h" />
-    <ClInclude Include="Vector.h" />
     <ClInclude Include="_declares.h" />
+    <ClInclude Include="_type_utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
