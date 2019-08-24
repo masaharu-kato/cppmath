@@ -1,0 +1,5 @@
+C:/Users/anoth/source/repos/cppmath/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/anoth/source/repos/cppmath/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/anoth/source/repos/cppmath/out/build/x64-Debug/test/CMakeFiles/cpm_test.dir
+C:/Users/anoth/source/repos/cppmath/out/build/x64-Debug/test/CMakeFiles/edit_cache.dir
+C:/Users/anoth/source/repos/cppmath/out/build/x64-Debug/test/CMakeFiles/rebuild_cache.dir
