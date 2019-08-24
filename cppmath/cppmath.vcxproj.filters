@@ -32,6 +32,7 @@
     <ClInclude Include="_aliases.h" />
     <ClInclude Include="_type_utils.h" />
     <ClInclude Include="Vector.h" />
+    <ClInclude Include="DimSet.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />

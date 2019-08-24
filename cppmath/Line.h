@@ -30,7 +30,7 @@ namespace math {
 		Point operator ()(Type param) const noexcept { return point + vec * param; }
 
 		template <Dimension D>
-		Point operator ()(Value<Type, D>) const noexcept;
+		Point operator ()(ValueType<Type, D>) const noexcept;
 
 		bool operator &(const _Point&) const noexcept;
 
