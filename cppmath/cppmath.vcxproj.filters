@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="tmpl_int_seq.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Function">

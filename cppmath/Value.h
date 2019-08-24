@@ -5,8 +5,6 @@ namespace math {
 
 	template <class NumType, class Kind>
 	class ValueType {
-	public:
-
 	private:
 		NumType value;
 
@@ -20,33 +18,27 @@ namespace math {
 		explicit operator NumType&() noexcept { return value; }
 		explicit operator NumType() const noexcept { return value; }
 		
+
+	//	unary operations
 		ValueType operator +() const noexcept { return +(NumType)value; }
 		ValueType operator -() const noexcept { return -(NumType)value; }
-
-		ValueType operator +(ValueType v) const noexcept { return value + (NumType)v; }
-		ValueType operator -(ValueType v) const noexcept { return value - (NumType)v; }
-		ValueType operator *(ValueType v) const noexcept { return value * (NumType)v; }
-		ValueType operator /(ValueType v) const noexcept { return value / (NumType)v; }
-		
-		template <class _Kind> void operator +(ValueType<NumType, _Kind>) const = delete;
-		template <class _Kind> void operator -(ValueType<NumType, _Kind>) const = delete;
-		template <class _Kind> void operator *(ValueType<NumType, _Kind>) const = delete;
-		template <class _Kind> void operator /(ValueType<NumType, _Kind>) const = delete;
-
-		ValueType& operator +=(ValueType v) noexcept { value += (NumType)v; return *this; }
-		ValueType& operator -=(ValueType v) noexcept { value -= (NumType)v; return *this; }
-		ValueType& operator *=(ValueType v) noexcept { value *= (NumType)v; return *this; }
-		ValueType& operator /=(ValueType v) noexcept { value /= (NumType)v; return *this; }
-
-		template <class _Kind> void operator +=(ValueType<NumType, _Kind>) = delete;
-		template <class _Kind> void operator -=(ValueType<NumType, _Kind>) = delete;
-		template <class _Kind> void operator *=(ValueType<NumType, _Kind>) = delete;
-		template <class _Kind> void operator /=(ValueType<NumType, _Kind>) = delete;
 
 		ValueType& operator ++() noexcept { ++value; return *this; }
 		ValueType& operator --() noexcept { --value; return *this; }
 		ValueType operator ++(int) noexcept { ValueType current = value++; return current; }
 		ValueType operator --(int) noexcept { ValueType current = value--; return current; }
+
+
+	//	binary operations
+		ValueType operator +(ValueType v) const noexcept { return value + (NumType)v; }
+		ValueType operator -(ValueType v) const noexcept { return value - (NumType)v; }
+		ValueType operator *(ValueType v) const noexcept { return value * (NumType)v; }
+		ValueType operator /(ValueType v) const noexcept { return value / (NumType)v; }
+
+		ValueType& operator +=(ValueType v) noexcept { value += (NumType)v; return *this; }
+		ValueType& operator -=(ValueType v) noexcept { value -= (NumType)v; return *this; }
+		ValueType& operator *=(ValueType v) noexcept { value *= (NumType)v; return *this; }
+		ValueType& operator /=(ValueType v) noexcept { value /= (NumType)v; return *this; }
 		
 		bool operator ==(ValueType v) const noexcept { return value == (NumType)v; }
 		bool operator !=(ValueType v) const noexcept { return value != (NumType)v; }
@@ -54,13 +46,44 @@ namespace math {
 		bool operator > (ValueType v) const noexcept { return value >  (NumType)v; }
 		bool operator <=(ValueType v) const noexcept { return value <= (NumType)v; }
 		bool operator >=(ValueType v) const noexcept { return value >= (NumType)v; }
+
+
+	//	binary operations with different numeric types
+		template <class _NumType> ValueType<decltype(value + (_NumType)v), Kind> operator +(ValueType<_NumType, Kind> v) const noexcept { return value + (_NumType)v; }
+		template <class _NumType> ValueType<decltype(value - (_NumType)v), Kind> operator -(ValueType<_NumType, Kind> v) const noexcept { return value - (_NumType)v; }
+		template <class _NumType> ValueType<decltype(value * (_NumType)v), Kind> operator *(ValueType<_NumType, Kind> v) const noexcept { return value * (_NumType)v; }
+		template <class _NumType> ValueType<decltype(value / (_NumType)v), Kind> operator /(ValueType<_NumType, Kind> v) const noexcept { return value / (_NumType)v; }
+
+		template <class _NumType> ValueType& operator +=(ValueType<_NumType, Kind> v) noexcept { value += (_NumType)v; return *this; }
+		template <class _NumType> ValueType& operator -=(ValueType<_NumType, Kind> v) noexcept { value -= (_NumType)v; return *this; }
+		template <class _NumType> ValueType& operator *=(ValueType<_NumType, Kind> v) noexcept { value *= (_NumType)v; return *this; }
+		template <class _NumType> ValueType& operator /=(ValueType<_NumType, Kind> v) noexcept { value /= (_NumType)v; return *this; }
 		
-		template <class _Kind> bool operator ==(ValueType<NumType, _Kind>) const = delete;
-		template <class _Kind> bool operator !=(ValueType<NumType, _Kind>) const = delete;
-		template <class _Kind> bool operator < (ValueType<NumType, _Kind>) const = delete;
-		template <class _Kind> bool operator > (ValueType<NumType, _Kind>) const = delete;
-		template <class _Kind> bool operator <=(ValueType<NumType, _Kind>) const = delete;
-		template <class _Kind> bool operator >=(ValueType<NumType, _Kind>) const = delete;
+		template <class _NumType> bool operator ==(ValueType<_NumType, Kind> v) const noexcept { return value == (_NumType)v; }
+		template <class _NumType> bool operator !=(ValueType<_NumType, Kind> v) const noexcept { return value != (_NumType)v; }
+		template <class _NumType> bool operator < (ValueType<_NumType, Kind> v) const noexcept { return value <  (_NumType)v; }
+		template <class _NumType> bool operator > (ValueType<_NumType, Kind> v) const noexcept { return value >  (_NumType)v; }
+		template <class _NumType> bool operator <=(ValueType<_NumType, Kind> v) const noexcept { return value <= (_NumType)v; }
+		template <class _NumType> bool operator >=(ValueType<_NumType, Kind> v) const noexcept { return value >= (_NumType)v; }
+		
+
+	//	prohibit operations with different kinds
+		template <class _NumType, class _Kind> void operator +(ValueType<_NumType, _Kind>) const = delete;
+		template <class _NumType, class _Kind> void operator -(ValueType<_NumType, _Kind>) const = delete;
+		template <class _NumType, class _Kind> void operator *(ValueType<_NumType, _Kind>) const = delete;
+		template <class _NumType, class _Kind> void operator /(ValueType<_NumType, _Kind>) const = delete;
+
+		template <class _NumType, class _Kind> void operator +=(ValueType<_NumType, _Kind>) = delete;
+		template <class _NumType, class _Kind> void operator -=(ValueType<_NumType, _Kind>) = delete;
+		template <class _NumType, class _Kind> void operator *=(ValueType<_NumType, _Kind>) = delete;
+		template <class _NumType, class _Kind> void operator /=(ValueType<_NumType, _Kind>) = delete;
+		
+		template <class _NumType, class _Kind> bool operator ==(ValueType<_NumType, _Kind>) const = delete;
+		template <class _NumType, class _Kind> bool operator !=(ValueType<_NumType, _Kind>) const = delete;
+		template <class _NumType, class _Kind> bool operator < (ValueType<_NumType, _Kind>) const = delete;
+		template <class _NumType, class _Kind> bool operator > (ValueType<_NumType, _Kind>) const = delete;
+		template <class _NumType, class _Kind> bool operator <=(ValueType<_NumType, _Kind>) const = delete;
+		template <class _NumType, class _Kind> bool operator >=(ValueType<_NumType, _Kind>) const = delete;
 
 
 		template <class OS>

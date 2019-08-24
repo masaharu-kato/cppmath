@@ -22,7 +22,7 @@ namespace math {
 	template <class NumType, class Kind>
 	class ValueType;
 
-	template <template<Dimension> class ValType, Dimension N_DIM>
+	template <class NumType, class DimSet>
 	class Vector;
 
 	//template <class NumType>
