@@ -1,0 +1,3 @@
+[submodule "lib/cype"]
+	path = lib/cype
+	url = https://github.com/masaharu-kato/cype
