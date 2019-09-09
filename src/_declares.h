@@ -10,14 +10,40 @@ namespace cpm {
 	template <Dimension I_DIM>
 	struct SingleDim;
 
-	template <Dimension N_DIM>
-	struct SingleDimSet;
-
 	template <Dimension I_ROW, Dimension I_COL>
 	struct DoubleDim;
 
+	template <Dimension I_ROW>
+	struct RowDim;
+
+	template <Dimension I_COL>
+	struct ColDim;
+
+
+	template <class... Dims>
+	struct DimSet;
+
+	template <Dimension... I_DIMs>
+	using SingleDims = DimSet<SingleDim<I_DIMs>...>;
+
+	template <Dimension... I_ROWs>
+	using RowDims = DimSet<RowDim<I_ROWs>...>;
+
+	template <Dimension... I_COLs>
+	using ColDims = DimSet<ColDim<I_COLs>...>;
+
+	template <Dimension N_DIM>
+	struct SingleDimSeq;
+
 	template <Dimension N_ROW, Dimension N_COL>
-	struct DoubleDimSet;
+	struct DoubleDimSeq;
+
+	template <Dimension N_ROW>
+	struct RowDimSeq;
+
+	template <Dimension N_COL>
+	struct ColDimSeq;
+
 
 	template <class NumType, class Kind>
 	class ValueType;
