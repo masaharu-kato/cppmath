@@ -3,12 +3,17 @@
 
 namespace cpm {
 
-	template <class NumType, class Kind>
+	template <class _NumType, class _Kind>
 	class ValueType {
+	public:
+		using NumType = _NumType;
+		using Kind = _Kind;
+
 	private:
 		NumType value;
 
 	public:
+
 		ValueType() noexcept = default;
 		ValueType(NumType value) noexcept : value(value) {}
 
@@ -49,10 +54,10 @@ namespace cpm {
 
 
 	//	binary operations with different numeric types
-		template <class _NumType> ValueType<decltype(value + (_NumType)v), Kind> operator +(ValueType<_NumType, Kind> v) const noexcept { return value + (_NumType)v; }
-		template <class _NumType> ValueType<decltype(value - (_NumType)v), Kind> operator -(ValueType<_NumType, Kind> v) const noexcept { return value - (_NumType)v; }
-		template <class _NumType> ValueType<decltype(value * (_NumType)v), Kind> operator *(ValueType<_NumType, Kind> v) const noexcept { return value * (_NumType)v; }
-		template <class _NumType> ValueType<decltype(value / (_NumType)v), Kind> operator /(ValueType<_NumType, Kind> v) const noexcept { return value / (_NumType)v; }
+		template <class _NumType> auto operator +(ValueType<_NumType, Kind> v) const noexcept -> ValueType<decltype(value + (_NumType)v), Kind> { return value + (_NumType)v; }
+		template <class _NumType> auto operator -(ValueType<_NumType, Kind> v) const noexcept -> ValueType<decltype(value - (_NumType)v), Kind> { return value - (_NumType)v; }
+		template <class _NumType> auto operator *(ValueType<_NumType, Kind> v) const noexcept -> ValueType<decltype(value * (_NumType)v), Kind> { return value * (_NumType)v; }
+		template <class _NumType> auto operator /(ValueType<_NumType, Kind> v) const noexcept -> ValueType<decltype(value / (_NumType)v), Kind> { return value / (_NumType)v; }
 
 		template <class _NumType> ValueType& operator +=(ValueType<_NumType, Kind> v) noexcept { value += (_NumType)v; return *this; }
 		template <class _NumType> ValueType& operator -=(ValueType<_NumType, Kind> v) noexcept { value -= (_NumType)v; return *this; }
