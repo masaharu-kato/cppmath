@@ -29,5 +29,6 @@ int main(void)
 	std::cout << ((ivec1 * 4 == ivec2) ? 'T' : 'F') << "\n";
 	std::cout << ((ivec1 == ivec2 / 2) ? 'T' : 'F') << "\n";
 
+	getchar();
 	return 0;
 }

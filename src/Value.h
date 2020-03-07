@@ -3,11 +3,11 @@
 
 namespace cpm {
 
-	template <class _NumType, class _Kind>
+	template <class TA_NumType, class TA_Kind>
 	class ValueType {
 	public:
-		using NumType = _NumType;
-		using Kind = _Kind;
+		using NumType = TA_NumType;
+		using Kind = TA_Kind;
 
 	private:
 		NumType value;

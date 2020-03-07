@@ -96,13 +96,13 @@ namespace cpm {
 
 //	Vector aliases with `NumType`
 	template <class NumType, Dimension N_DIM>
-	using Vector = VectorType<typename _with_NumType<NumType>::Value, N_DIM>;
+	using Vector = VectorType<_with_NumType<NumType>::template Value, N_DIM>;
 
 	template <class NumType, Dimension N_DIM>
-	using ColVector = VectorType<typename _with_NumType<NumType>::ColValue, N_DIM>;
+	using ColVector = VectorType<_with_NumType<NumType>::template ColValue, N_DIM>;
 
 	template <class NumType, Dimension N_DIM>
-	using RowVector = VectorType<typename _with_NumType<NumType>::RowValue, N_DIM>;
+	using RowVector = VectorType<_with_NumType<NumType>::template RowValue, N_DIM>;
 
 
 
@@ -121,10 +121,10 @@ namespace cpm {
 	template <class NumType, Dimension N_ROW, Dimension N_COL>
 	class Matrix;
 
-	template <class NumType, Dimension Dim, size_t Size>
+	template <class NumType, Dimension Dim, Size_T Size>
 	class StaticPolygon;
 	
-	template <class NumType, Dimension Dim, size_t Size>
+	template <class NumType, Dimension Dim, Size_T Size>
 	class StaticConvexPolygon;
 
 	template <class NumType, Dimension Dim>

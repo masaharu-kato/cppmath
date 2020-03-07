@@ -2,14 +2,16 @@
 #include "_declares.h"
 
 namespace cpm::alias {
+
+	using namespace cpm;
 	
-	template <Dimension Dim> using       VectorD =       Vector<double, Dim>;
-	template <Dimension Dim> using    ColVectorD =    ColVector<double, Dim>;
-	template <Dimension Dim> using    RowVectorD =    RowVector<double, Dim>;
-	template <Dimension Dim> using        PointD =        Point<double, Dim>;
-	template <Dimension Dim> using         LineD =         Line<double, Dim>;
-	template <Dimension Dim> using  LineSegmentD =  LineSegment<double, Dim>;
-	template <Dimension Dim> using        RangeD =        Range<double, Dim>;
+	template <Dimension Dim> using       VectorD =      Vector<double, Dim>;
+	template <Dimension Dim> using    ColVectorD =   ColVector<double, Dim>;
+	template <Dimension Dim> using    RowVectorD =   RowVector<double, Dim>;
+	template <Dimension Dim> using        PointD =       Point<double, Dim>;
+	template <Dimension Dim> using         LineD =        Line<double, Dim>;
+	template <Dimension Dim> using  LineSegmentD = LineSegment<double, Dim>;
+	template <Dimension Dim> using        RangeD =       Range<double, Dim>;
 	
 	template <Dimension Dim> using       VectorF =       Vector<float, Dim>;
 	template <Dimension Dim> using    ColVectorF =    ColVector<float, Dim>;

@@ -1,6 +1,7 @@
 #pragma once
 namespace cpm {
 
-	using Dimension = size_t;
+	using Size_T = std::size_t;
+	using Dimension = std::size_t;
 
 }
