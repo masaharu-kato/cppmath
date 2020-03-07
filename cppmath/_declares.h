@@ -22,41 +22,62 @@ namespace math {
 	template <class NumType, class Kind>
 	class ValueType;
 
-	template <class NumType, class DimSet>
-	class Vector;
+	template <template <Dimension> class ValType, Dimension N_DIM>
+	class VectorType;
 
-	//template <class NumType>
-	//struct NumTypeOf : _not_constructable {
 
-	//	template <Dimension I_ROW>
-	//	struct RowOf : _not_constructable {
-	//		template <Dimension I_COL> using ValueType = Value<NumType, I_ROW, I_COL>;
-	//		template <Dimension N_COL> using RowVectorType = Vector<ValueType, N_COL>;
-	//	};
+//	Types for ValueType's `Kind` template argument
+	template <Dimension I_DIM>
+	struct ValueKind_Normal;
 
-	//	template <Dimension I_COL>
-	//	struct ColOf : _not_constructable {
-	//		template <Dimension I_ROW> using ValueType = Value<NumType, I_ROW, I_COL>;
-	//		template <Dimension N_ROW> using ColVectorType = Vector<ValueType, N_ROW>;
-	//	};
+	template <Dimension I_DIM>
+	struct ValueKind_Col;
 
-	//	template <Dimension N_ROW>
-	//	struct RowNumOf : _not_constructable {
-	//		template <Dimension I_COL> using ColVectorType = Vector<typename ColOf<I_COL>::ValueType, N_ROW>;
-	//	};
+	template <Dimension I_DIM>
+	struct ValueKind_Row;
 
-	//	template <Dimension N_COL>
-	//	struct ColNumOf : _not_constructable {
-	//		template <Dimension I_ROW> using RowVectorType = Vector<typename RowOf<I_ROW>::ValueType, N_COL>;
-	//	};
+	template <Dimension I_ROW, Dimension I_COL>
+	struct ValueKind_RowCol;
 
-	//};
+//	ValueType aliases
+	template <class NumType, Dimension I_DIM>
+	using Value = ValueType<NumType, ValueKind_Normal<I_DIM>>;
 
-	//template <class NumType, Dimension I_ROW, Dimension N_COL>
-	//using RowVector = typename NumTypeOf<NumType>::template RowOf<I_ROW>::template RowVectorType<N_COL>;
+	template <class NumType, Dimension I_DIM>
+	using ColValue = ValueType<NumType, ValueKind_Col<I_DIM>>;
 
-	//template <class NumType, Dimension N_ROW, Dimension I_COL>
-	//using ColVector = typename NumTypeOf<NumType>::template ColOf<I_COL>::template ColVectorType<N_ROW>;
+	template <class NumType, Dimension I_DIM>
+	using RowValue = ValueType<NumType, ValueKind_Row<I_DIM>>;
+
+	template <class NumType, Dimension I_ROW, Dimension I_COL>
+	using RowColValue = ValueType<NumType, ValueKind_RowCol<I_ROW, I_COL>>;
+
+//	ValueType aliases with `NumType` prespecified
+	template <class NumType>
+	struct _with_NumType {
+		template <Dimension I_DIM>
+		using Value = ValueType<NumType, ValueKind_Normal<I_DIM>>;
+
+		template <Dimension I_DIM>
+		using ColValue = ValueType<NumType, ValueKind_Col<I_DIM>>;
+
+		template <Dimension I_DIM>
+		using RowValue = ValueType<NumType, ValueKind_Row<I_DIM>>;
+
+		template <Dimension I_ROW, Dimension I_COL>
+		using RowColValue = ValueType<NumType, ValueKind_RowCol<I_ROW, I_COL>>;
+	};
+
+//	Vector aliases with `NumType`
+	template <class NumType, Dimension N_DIM>
+	using Vector = VectorType<typename _with_NumType<NumType>::Value, N_DIM>;
+
+	template <class NumType, Dimension N_DIM>
+	using ColVector = VectorType<typename _with_NumType<NumType>::ColValue, N_DIM>;
+
+	template <class NumType, Dimension N_DIM>
+	using RowVector = VectorType<typename _with_NumType<NumType>::RowValue, N_DIM>;
+
 
 
 	template <class NumType, Dimension Dim>

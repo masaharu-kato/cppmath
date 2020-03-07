@@ -112,15 +112,15 @@ void test(std::index_sequence<I...>) {
 }
 
 
-
-int main(){
-
-	VectorND<4> vec1( 12.5, -21.3, 35.7, 42.6);
-	VectorND<4> vec2(  6.4,   8.5,- 2.5, 10.3);
- 
-	auto vec3 = - vec1 + vec2;
-
-	vec3.show();
-
-	return 0;
-}
+//
+//int main(){
+//
+//	VectorND<4> vec1( 12.5, -21.3, 35.7, 42.6);
+//	VectorND<4> vec2(  6.4,   8.5,- 2.5, 10.3);
+// 
+//	auto vec3 = - vec1 + vec2;
+//
+//	vec3.show();
+//
+//	return 0;
+//}
